@@ -16,7 +16,11 @@ $$
 
 $$
  +\beta_5 AnzahlSameProductsRadius0To10_i + \beta_6        
-  AnzahlSameProductsRadius10To30_i + \beta_7 AnzahlSameProductsRadius30To60_i + u_i
+  AnzahlSameProductsRadius10To30_i 
+$$
+
+$$
+  +\beta_7 AnzahlSameProductsRadius30To60_i + u_i
 $$
 
 - $Price_i$: The price of the product \( i \). *We can only observe the willhaben price, which might not is the 'final' price.
@@ -55,8 +59,14 @@ $$
 #### Model Specifications: 
 
 $$
-WHPrice_i = \beta_0 + \beta_1 Distance_i + \beta_2 AnzahlSameProductsRadius0To10_i + \beta_3 AnzahlSameProductsRadius10To30_i + \beta_4 AnzahlSameProductsRadius30To60_i + u_i
+WHPrice_i = \beta_0 + \beta_1 Distance_i + \beta_2 AnzahlSameProductsRadius0To10_i
 $$
+
+$$
+  +\beta_3 AnzahlSameProductsRadius10To30_i + \beta_4 AnzahlSameProductsRadius30To60_i + u_i
+$$
+
+and:
 
 $$
 u_i = \lambda W u_i + \epsilon_i
