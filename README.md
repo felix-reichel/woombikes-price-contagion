@@ -19,15 +19,15 @@ $$
   AnzahlSameProductsRadius10To30_i + \beta_7 AnzahlSameProductsRadius30To60_i + u_i
 $$
 
-- $Price_i$: The price of the product \( i \). *We can only observed the willhaben price, which might not is the 'final' price.
+- $Price_i$: The price of the product \( i \). *We can only observe the willhaben price, which might not is the 'final' price.
 
 - $Distance_i$: The distance to the nearest similar product. *We might control further covariates here (e.g. nearest retailer product new)
 
-- $ProductCategory_i$: A dummy variable indicating the product category. *Here we will put in the coded Voom Bike Numbers (e.g. 4, 3)
+- $ProductCategory_i$: A dummy variable indicating the product category. *Here we will put in the coded Woom Bike Numbers (e.g. 4, 3)
 
 - $Color_i$: A categorical variable indicating the color of the product.
 
-- $Uebergabeart_i$: A categorical variable indicating the delivery method. * Selbstabholung / Versand on willhaben => encode as Versand==1
+- $Uebergabeart_i$: A categorical variable indicating the delivery method. * Selbstabholung / Versand on willhaben => encode as Versand=1
 
 - $AnzahlSameProductsRadius0To10_i$: The count of similar products within a 0-10 km radius. (=> calculated for each obs. unit from zip codes of offers)
 - $AnzahlSameProductsRadius10To30_i$: The count of similar products within a 10-30 km radius.
