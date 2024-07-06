@@ -1,11 +1,13 @@
+import time
+
 import scrapy
 from scrapy.crawler import CrawlerProcess
 import urllib.parse
 from tqdm import tqdm
 
-# SCRAPE ALL 52 first pages since there are 1560 / 30 items per page < 52 currently
-MAX_RESULT_PAGE = 52
-ITEMS_PER_PAGE = 30
+# SCRAPE ALL 52 first pages since there are 1.572 / 3 items per page < 524 currently
+MAX_RESULT_PAGE = 524
+ITEMS_PER_PAGE = 3
 
 
 class WillhabenWoomScraper(scrapy.Spider):
@@ -82,23 +84,24 @@ class WillhabenWoomScraper(scrapy.Spider):
             item_url = 'https://www.willhaben.at' + link
             yield scrapy.Request(url=item_url, headers=self.headers, callback=self.parse_item)
 
-        if self.current_item > 0:
+        # Proceed to the next page if there are more pages to scrape
+        isNewPageCriteriaMet = self.current_item % ITEMS_PER_PAGE == 0
+        newPageTheoretical = int((self.current_item / ITEMS_PER_PAGE) + self.current_page)
 
-            # Proceed to the next page if there are more pages to scrape
-            isNewPageCriteriaMet = self.current_item % ITEMS_PER_PAGE == 0
-            newPageTheoretical = int((self.current_item / ITEMS_PER_PAGE) + self.current_page)
+        if isNewPageCriteriaMet & newPageTheoretical < MAX_RESULT_PAGE:
+            print(f"isNewPageCriteriaMet: {isNewPageCriteriaMet} and newPageLead is {newPageTheoretical}")
 
-            if isNewPageCriteriaMet & newPageTheoretical < MAX_RESULT_PAGE:
-                print(f"isNewPageCriteriaMet: {isNewPageCriteriaMet} and newPageLead is {newPageTheoretical}")
+            # sleep for 10 secs when criteria was met.
+            time.sleep(10)
 
-                self.current_page += 1
-                self.page_progress_bar.update(1)
-                self.params['page'] = self.current_page
-                next_page_url = self.base_url + urllib.parse.urlencode(self.params)
-                yield scrapy.Request(url=next_page_url,
-                                     headers=self.headers,
-                                     callback=self.parse_listings,
-                                     dont_filter=True)
+            self.current_page += 1
+            self.page_progress_bar.update(1)
+            self.params['page'] = self.current_page
+            next_page_url = self.base_url + urllib.parse.urlencode(self.params)
+            yield scrapy.Request(url=next_page_url,
+                                 headers=self.headers,
+                                 callback=self.parse_listings,
+                                 dont_filter=True)
             # elif self.current_page == MAX_RESULT_PAGE:
             #    self.page_progress_bar.close()
             #    self.item_progress_bar.close()
