@@ -1,9 +1,11 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
 import urllib.parse
+from tqdm import tqdm
 
-# SCRAPE ALL 18 first pages since there are 1600 / 90 items per page < 18 currently
-MAX_RESULT_PAGE = 18
+# SCRAPE ALL 52 first pages since there are 1560 / 30 items per page < 52 currently
+MAX_RESULT_PAGE = 52
+ITEMS_PER_PAGE = 30
 
 
 class WillhabenWoomScraper(scrapy.Spider):
@@ -16,7 +18,7 @@ class WillhabenWoomScraper(scrapy.Spider):
     params = {
         'keyword': 'woom',
         'sfId': '935a397a-28ce-4674-b275-8cbc42ac496a',
-        'rows': 90,
+        'rows': ITEMS_PER_PAGE,
         'isNavigation': 'true',
         'page': 1
     }
@@ -37,7 +39,7 @@ class WillhabenWoomScraper(scrapy.Spider):
         'AUTOTHROTTLE_START_DELAY': 1,
         'AUTOTHROTTLE_MAX_DELAY': 2,
         'FEEDS': {
-            'woom_bikes_new.csv': {
+            'willhaben_woom_bikes.csv': {
                 'format': 'csv',
                 'encoding': 'utf8',
                 'store_empty': True,
@@ -55,8 +57,12 @@ class WillhabenWoomScraper(scrapy.Spider):
         },
     }
 
-    # Current page counter
-    current_page = 1
+    def __init__(self, *args, **kwargs):
+        super(WillhabenWoomScraper, self).__init__(*args, **kwargs)
+        self.page_progress_bar = tqdm(total=MAX_RESULT_PAGE, desc='Pages Scraped', position=0)
+        self.item_progress_bar = tqdm(total=ITEMS_PER_PAGE * MAX_RESULT_PAGE, desc='Items Scraped', position=1)
+        self.current_page = 1
+        self.current_item = 0
 
     def start_requests(self):
         # Initialize query params
@@ -64,25 +70,41 @@ class WillhabenWoomScraper(scrapy.Spider):
         start_url = self.base_url + urllib.parse.urlencode(self.params)
 
         # Send the initial request
-        yield scrapy.Request(url=start_url, headers=self.headers, callback=self.parse_listings)
+        yield scrapy.Request(url=start_url, headers=self.headers, callback=self.parse_listings, dont_filter=True)
 
     def parse_listings(self, response):
         # Extract and follow links to individual item pages
-        item_links = response.css('a[aria-labelledby^="search-result-entry-header-"]::attr(href)').getall()
+        item_links = response.css('a[id^="search-result-entry-header-"]::attr(href)').getall()
+        print(item_links)
+        print(f"The current page: {self.current_page} has following amount of items: {len(item_links)}")
+
         for link in item_links:
             item_url = 'https://www.willhaben.at' + link
             yield scrapy.Request(url=item_url, headers=self.headers, callback=self.parse_item)
 
-        # Check if there are more pages to scrape
-        if self.current_page < MAX_RESULT_PAGE:
-            self.current_page += 1
-            self.params['page'] = self.current_page
-            next_page_url = self.base_url + urllib.parse.urlencode(self.params)
-            yield scrapy.Request(url=next_page_url, headers=self.headers, callback=self.parse_listings)
+        if self.current_item > 0:
 
-    @staticmethod
-    def parse_item(response):
-        # parse item details from the page
+            # Proceed to the next page if there are more pages to scrape
+            isNewPageCriteriaMet = self.current_item % ITEMS_PER_PAGE == 0
+            newPageTheoretical = int((self.current_item / ITEMS_PER_PAGE) + self.current_page)
+
+            if isNewPageCriteriaMet & newPageTheoretical < MAX_RESULT_PAGE:
+                print(f"isNewPageCriteriaMet: {isNewPageCriteriaMet} and newPageLead is {newPageTheoretical}")
+
+                self.current_page += 1
+                self.page_progress_bar.update(1)
+                self.params['page'] = self.current_page
+                next_page_url = self.base_url + urllib.parse.urlencode(self.params)
+                yield scrapy.Request(url=next_page_url,
+                                     headers=self.headers,
+                                     callback=self.parse_listings,
+                                     dont_filter=True)
+            # elif self.current_page == MAX_RESULT_PAGE:
+            #    self.page_progress_bar.close()
+            #    self.item_progress_bar.close()
+
+    def parse_item(self, response):
+        # Parse item details from the page
         title = response.css('h1[data-testid="ad-detail-header"]::text').get(default='').strip()
         price = response.css('span[data-testid="contact-box-price-box-price-value"]::text').get(default='').strip()
         location = response.css('div[data-testid="top-contact-box-address-box"] span:nth-child(2)::text').getall()
@@ -106,6 +128,10 @@ class WillhabenWoomScraper(scrapy.Spider):
             'description': description,
             'item_url': response.url
         }
+
+        # Update the item progress bar
+        self.current_item += 1
+        self.item_progress_bar.update(1)
 
 
 if __name__ == '__main__':
