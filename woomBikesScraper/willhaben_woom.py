@@ -1,9 +1,6 @@
-# willhaben_woom.py
-
-import urllib.parse
-
 import scrapy
 from scrapy.crawler import CrawlerProcess
+import urllib.parse
 
 # SCRAPE ALL 18 first pages since there are 1600 / 90 items per page < 18 currently
 MAX_RESULT_PAGE = 18
@@ -50,6 +47,8 @@ class WillhabenWoomScraper(scrapy.Spider):
                 ]
             }
         },
+        'RETRY_ENABLED': True,
+        'RETRY_TIMES': 99,
         'DOWNLOADER_MIDDLEWARES': {
             'middlewares.middlewares.CustomRetryMiddleware': 543,  # Adjust priority as needed
             'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,  # Disable built-in RetryMiddleware
@@ -74,7 +73,7 @@ class WillhabenWoomScraper(scrapy.Spider):
             item_url = 'https://www.willhaben.at' + link
             yield scrapy.Request(url=item_url, headers=self.headers, callback=self.parse_item)
 
-        # Increase page
+        # Check if there are more pages to scrape
         if self.current_page < MAX_RESULT_PAGE:
             self.current_page += 1
             self.params['page'] = self.current_page

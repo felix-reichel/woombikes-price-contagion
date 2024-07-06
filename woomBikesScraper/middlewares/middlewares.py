@@ -12,6 +12,7 @@ class CustomRetryMiddleware(RetryMiddleware):
         self.too_many_requests_min_delay = 600  # 10 minutes in seconds
         self.too_many_requests_max_delay = 900  # 15 minutes in seconds
         self.waiting = False
+        self.max_retry_times = settings.getint('RETRY_TIMES', 99)  # default 99 times
 
     def process_response(self, request, response, spider):
         if response.status == 429:  # Too Many Requests
