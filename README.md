@@ -2,30 +2,28 @@
 Repo for VU Online Market Places
 
 **Observational Unit:** "Woom Bikes" ("Marktplatz -> Sport / Sportgeräte -> Fahrräder / Radsport -> Fahrräder")
-**Number:** / (filtered by only using the "Original Series", which is assumed if only "Woom ? or "Woom Original ?" is in the title or desc, presumably 1k+)
 
-## Model Specification (Draft)
+**Number:** $\sim$ 1,5k+ (One snapshot, Observations at $t_0$)
 
-### Model 1: Regression Model
+## Analysis of Willhaben Ads (Supply side) 
 
-#### Simple MLR Model 
+### Model Specification (Draft)
+
+#### Model 1: Simple MLR Model 
 
 $$
-WHPrice_i = \beta_0 + \beta_1 WHPriceObfuscation_i + \beta_2 WHCategory_i + \beta_3 WHColor_i + ... + \beta_4 WHUebergabeart_i + \beta_5 AnzahlSameProductsRadius0To10_i + \beta_6 AnzahlSameProductsRadius10To30_i + \beta_7 AnzahlSameProductsRadius30To60_i + u_i
+WHPriceProxy_i = \beta_0 + \beta * X_{WH_i} + u_i
 $$
 
 #### Desc.:
-- $WHPrice_i$: The observed price of the product i on the marketplace. It reflects the willhaben price, which may not represent the final price.
-- Assumed as Exogenous: ~~$DistanceToNextDealer_i$: e.g. https://intl-checkout.woom.com/apps/dealerlocator~~
-- Assumed as Exogenous: ~~$AnzahlToNextDealerRadius0To10_i$: The count of dealers within a 0-10 km radius from the product's location, calculated using zip codes.~~
-- Assumed as Exogenous: ~~$AnzahlToNextDealerRadius10To30_i$: The count of dealers within a 0-30 km radius from the product's location, calculated using zip codes.~~
-- $WHPriceObfuscation_i$: Dummy 1 if has priceparts (9, 90, 99), 0 otherwise.
+- $WHPriceProxy_i$: The observed price of the product i on the marketplace. It reflects the willhaben price, which may not represent the final price.
+
 - $WHCategory_i$: A categorical variable indicating the Woom Bike numbers (e.g., 4, 3).
+- $WHCond_i$: Categorial Variable denoting the condition. (used, good, as good as new).
 - $WHColor_i$: A categorical variable representing the color of the product.
-- $WHLast48hours_i$: Dummy 1 if ad <= 48 hours active, 0 otherwise.
-- $WHCond_i$: Categorial Variable denoting the condition. (used, good, as good as new)
 - $WHUebergabeart_i$: A categorical variable denoting the delivery method. It is encoded as 1 for "Versand" (shipping) and 0 for "Selbstabholung" (self-pickup) on willhaben.
-- ~~$Pay_livery_i$: Dummy 1 if has paylivery, 0 otherwise.~~
+- $WHLast48hours_i$: Dummy 1 if ad <= 48 hours active, 0 otherwise.
+- $WHHasNinePrice_i$: Dummy 1 if has priceparts (9, 90, 99), 0 otherwise.
 - $WHDealer_i$: Dummy 1 if dealer, 0 otherwise (private exchange).
 - $WHAnzahlSameProductsRadius0To10_i$: The count of similar products within a 0-10 km radius from the product's location, calculated using zip codes.
 - $WHAnzahlSameProductsRadius10To30_i$: The count of similar products within a 10-30 km radius.
