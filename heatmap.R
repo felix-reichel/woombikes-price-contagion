@@ -7,15 +7,10 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 bikes <- read.csv(
   "data/willhaben_woom_bikes_sample.csv", 
-  stringsAsFactors = FALSE)
+  stringsAsFactors = TRUE)
 
 
-selected_vars <- c("price_parsed", "PriceObfuscation_i", "WoomCategory_i", 
-                   "Color_i", "Last_48_hours_i", "Cond_i", "Uebergabeart_i", 
-                   "Dealer_i", "AnzahlSameProductsRadius0To10_i", 
-                   "AnzahlSameProductsRadius10To30_i", "AnzahlSameProductsRadius30To60_i")
-
-bikes_selected <- bikes[, selected_vars]
+bikes_selected <- bikes[, colnames(bikes)]
 numeric_cols <- sapply(bikes_selected, is.numeric)
 cor_data <- cor(bikes_selected[, numeric_cols])
 cor_data_melted <- melt(cor_data)
@@ -35,3 +30,4 @@ ggplot(cor_data_melted, aes(Var2, Var1, fill = value)) +
   coord_fixed()
 
 dev.off()
+
