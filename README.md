@@ -3,7 +3,7 @@ Repository for VU Online Marketplaces
 
 **Observational Unit:** "Woom Bikes" ("Marketplace -> Sport / Sports Equipment -> Bicycles / Cycling -> Bicycles")
 
-**Number:** Approximately 1,500+ (Single snapshot, Observations at $t_0$)
+**Number:** Approximately 3,000+ (Two snapshots, Observations at $t_0$ and $t_1$)
 
 **Sample size:** 250
 
@@ -15,7 +15,7 @@ Repository for VU Online Marketplaces
 
 ### Model Specification (Draft)
 
-#### Model 1: Simple MLR Model
+#### Model 1: Base MLR Model
 
 $$
 WHPriceProxy_i = \beta_0 + \beta * X_{WH_i} + u_i
@@ -26,9 +26,17 @@ $$
 - $WHPriceProxy_i$: Observed price of product i on the marketplace, reflecting the Willhaben price.
 - $X_{WH_i}$: Vector of explanatory variables for product i.
 
-### Model 2: Spatial Regression Model
+#### Model 2: Spatial Regression Model
 
-- tbd.
+##### Model choice based on research aim / Summary of Cook et al. (2020)
+Cook et al. (2020) emphasize guiding model selection based on research aims. For unbiased estimates of non-spatial parameters, use SDM -> includes both observable spillovers (Wy and Wx). For testing spatial theories, use SAC or SDEM -> distinguishes spillovers in observables (SAC: ρWy, SDEM: WXγ) from unobservables -> prevents erroneous conclusions about diffusion/spillovers by controlling for non-observable clustering sources (p. 738).
+
+tbd.
+
+
+
+#### LR/Wald/LM Test Model Specification
+
 
 ## Data
 
