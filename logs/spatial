@@ -1,0 +1,32 @@
+[1mindexing[0m [34mwillhaben_woom_bikes_sample_no_outlier.csv[0m [==================================] [32m128.87GB/s[0m, eta: [36m 0s[0m                                                                                                                                                Reading layer `at_10km' from data source 
+  `/Users/felixreichel/Documents/UNI/EBA_Master/woombikes-price-contagion/data/Austria_shapefile/at_10km.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 1221 features and 3 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 4270000 ymin: 2580000 xmax: 4870000 ymax: 2910000
+Projected CRS: ETRS89 / ETRS-LAEA
+
+	Moran I test under randomisation
+
+data:  data_sf$hasPsychologicalPricing_i_num  
+weights: weights_list    
+
+Moran I statistic standard deviate = 1.4564, p-value = 0.07264
+alternative hypothesis: greater
+sample estimates:
+Moran I statistic       Expectation          Variance 
+      0.056003167      -0.001212121       0.001543322 
+
+
+	Moran I test under randomisation
+
+data:  data_sf$log_price  
+weights: weights_list    
+
+Moran I statistic standard deviate = -0.62634, p-value = 0.7345
+alternative hypothesis: greater
+sample estimates:
+Moran I statistic       Expectation          Variance 
+     -0.025827721      -0.001212121       0.001544525 
+

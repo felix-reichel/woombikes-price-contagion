@@ -6,7 +6,7 @@ library(reshape2)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 bikes <- read.csv(
-  "data/willhaben_woom_bikes_sample.csv", 
+  "data/willhaben_woom_bikes_sample_no_outlier.csv", 
   stringsAsFactors = TRUE)
 
 
@@ -19,8 +19,8 @@ cor_data_melted[!(cor_data_melted$Var1 == "zip_code" | cor_data_melted$Var2 == "
 
 
 
-### PRODUCE A CORRELATION HEATMAP ### 
-png("heatmap.png", width = 800, height = 600, res = 120)
+### PRODUCE A CORRELATION HEATMAP ###
+png("heatmap.png", width = 1920, height = 1080, res = 120)
 
 ggplot(cor_data_melted, aes(Var2, Var1, fill = value)) +
   geom_tile(color = "white") +

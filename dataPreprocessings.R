@@ -109,7 +109,10 @@ bikes <- bikes %>%
 sum(is.na(bikes$zip_code_result))
 # 939 cases.
 
-bikes <- bikes %>% filter(!is.na(zip_code_result))
+sum(is.na(bikes$price) | bikes$price == "")
+# 78 cases.
+
+bikes <- bikes %>% filter(!is.na(zip_code_result) & bikes$price != "")
 
 bikes <- bikes %>%
   mutate(
@@ -122,16 +125,15 @@ sum(is.na(bikes$longitude))
 
 
 bikes <- bikes[complete.cases(bikes[, 
-    c("Cond_i", "WoomCategory_i", "Color_i", "longitude", "latitude")]), ]
-# 991 obs.
+    c("Cond_i", "WoomCategory_i", "Color_i", "longitude", "latitude", "price")]), ]
+# 916 obs.
 
-### Calculate counts within radius ###
+### Calculate same size counts within radius ###
 
 count_similar_products_within_radius <- function(bikes, radius_min, radius_max, condition, size) {
   distances <- geodist(bikes[, c("longitude", "latitude")], measure = "haversine")
   counts <- sapply(1:nrow(distances), function(i) {
-    sum(distances[i, ] > radius_min & distances[i, ] <= radius_max & 
-          bikes$Cond_i == condition & bikes$WoomCategory_i == size)
+    sum(distances[i, ] > radius_min & distances[i, ] <= radius_max & bikes$WoomCategory_i == size) # bikes$Cond_i == condition 
   })
   return(counts)
 }
@@ -142,13 +144,13 @@ radius_max_km <- c(10, 30, 60) * 1000
 
 bikes <- bikes %>%
   mutate(
-    AnzahlSameProductsRadius0To10_i = count_similar_products_within_radius(., radius_min_km[1], radius_max_km[1], Cond_i, WoomCategory_i),
-    AnzahlSameProductsRadius10To30_i = count_similar_products_within_radius(., radius_min_km[2], radius_max_km[2], Cond_i, WoomCategory_i),
-    AnzahlSameProductsRadius30To60_i = count_similar_products_within_radius(., radius_min_km[3], radius_max_km[3], Cond_i, WoomCategory_i)
+    AnzahlSameSizeRadius0To10_i = count_similar_products_within_radius(., radius_min_km[1], radius_max_km[1], Cond_i, WoomCategory_i),
+    AnzahlSameSizeRadius10To30_i = count_similar_products_within_radius(., radius_min_km[2], radius_max_km[2], Cond_i, WoomCategory_i),
+    AnzahlSameSizeRadius30To60_i = count_similar_products_within_radius(., radius_min_km[3], radius_max_km[3], Cond_i, WoomCategory_i)
   )
 
-# Replace NA values with 0 in columns starting with "AnzahlSameProductsRadius"
-bikes <- bikes %>% mutate_at(vars(starts_with("AnzahlSameProductsRadius")), ~ifelse(is.na(.), 0, .))
+# Replace NA values with 0 in columns starting with "AnzahlSameSizeRadius"
+bikes <- bikes %>% mutate_at(vars(starts_with("AnzahlSameSizeRadius")), ~ifelse(is.na(.), 0, .))
 
 bikes <- bikes %>% mutate(hasPsychologicalPricing_i = ifelse(grepl("9$|90$|99$", price_parsed), 1, 0))
 
@@ -160,14 +162,13 @@ weights <- c(1/10, 1/30, 1/60)
 bikes <- bikes %>%
   mutate(
     logistic_costs = {
-      total_count <- AnzahlSameProductsRadius0To10_i + AnzahlSameProductsRadius10To30_i + AnzahlSameProductsRadius30To60_i
+      total_count <- AnzahlSameSizeRadius0To10_i + AnzahlSameSizeRadius10To30_i + AnzahlSameSizeRadius30To60_i
       
-      weighted_sum <- (AnzahlSameProductsRadius0To10_i * weights[1] +
-                         AnzahlSameProductsRadius10To30_i * weights[2] +
-                         AnzahlSameProductsRadius30To60_i * weights[3])
+      weighted_sum <- (AnzahlSameSizeRadius0To10_i * weights[1] +
+                         AnzahlSameSizeRadius10To30_i * weights[2] +
+                         AnzahlSameSizeRadius30To60_i * weights[3])
       
-      # Prevent division by zero
-      ifelse(total_count == 0, 0, 1 / weighted_sum)
+      ifelse(total_count == 0, NA, 1 / weighted_sum)
     }
   )
 
@@ -182,7 +183,8 @@ write.csv(bikes, "data/willhaben_woom_bikes_sample.csv", row.names = FALSE)
 
 
 ### DATA PREPROCESSINGS PART 3 ###
-### Remove price outliers ###
+### (Optional) Remove price outliers ###
+
 bikes <- read.csv("data/willhaben_woom_bikes_sample.csv", stringsAsFactors = FALSE)
 
 ggplot(bikes, aes(x = price_parsed)) +
@@ -194,8 +196,8 @@ IQR_value <- IQR(bikes$price_parsed, na.rm = TRUE)
 Q1 <- summary_stats["1st Qu."]
 Q3 <- summary_stats["3rd Qu."]
 
-lower_bound <- Q1 - 2.5 * IQR_value
-upper_bound <- Q3 + 2.5 * IQR_value
+lower_bound <- Q1 - 1.5 * IQR_value
+upper_bound <- Q3 + 1.5 * IQR_value
 
 bikes_no_outliers <- bikes %>% filter(price_parsed >= lower_bound & price_parsed <= upper_bound)
 # 826 obs.
@@ -206,5 +208,5 @@ ggplot(bikes_no_outliers, aes(x = price_parsed)) +
 
 na_count <- sum(is.na(bikes_no_outliers$price_parsed))
 
-write.csv(bikes_no_outliers, "data/willhaben_woom_bikes_sample.csv", row.names = FALSE)
+write.csv(bikes_no_outliers, "data/willhaben_woom_bikes_sample_no_outlier.csv", row.names = FALSE)
 

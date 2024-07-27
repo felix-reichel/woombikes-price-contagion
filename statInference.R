@@ -7,8 +7,12 @@ library(car)
 library(MASS)
 library(stargazer)
 
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-data <- read_csv("data/willhaben_woom_bikes_sample.csv")
+sink("logs/statInference.log")
+
+#data <- read_csv("data/willhaben_woom_bikes_sample.csv")
+data <- read_csv("data/willhaben_woom_bikes_sample_no_outlier.csv")
 spec(data)
 
 
@@ -20,6 +24,10 @@ hist(as.numeric(data$Last_48_hours_i))
 hist(as.numeric(data$hasPsychologicalPricing_i))
 hist(as.numeric(data$logistic_costs))
 
+hist(data$AnzahlSameSizeRadius0To10_i)
+hist(data$AnzahlSameSizeRadius10To30_i)
+hist(data$AnzahlSameSizeRadius30To60_i)
+
 ### Stepwise AIC Best MLR Model
 data <- data %>% 
   mutate(
@@ -30,7 +38,10 @@ data <- data %>%
 
 
 initial_model <- lm(log_price ~ size + condition + color + Dealer_i + Last_48_hours_i 
-                                 + hasPsychologicalPricing_i + Uebergabeart_i + logistic_costs, 
+                                 + hasPsychologicalPricing_i + Uebergabeart_i + logistic_costs
+                    +AnzahlSameSizeRadius0To10_i 
+                    + AnzahlSameSizeRadius10To30_i+
+                      AnzahlSameSizeRadius30To60_i, 
                     data = data)
 
 vif(initial_model)  # Check for multicollinearity
@@ -57,8 +68,8 @@ plot(final_model)
 bivariate_models <- list()
 predictor_vars <- c("size", "condition", "Dealer_i", "Last_48_hours_i", 
                     "hasPsychologicalPricing_i", "color",
-                    "AnzahlSameProductsRadius0To10_i", "AnzahlSameProductsRadius10To30_i",
-                    "AnzahlSameProductsRadius30To60_i", "Uebergabeart_i", "logistic_costs")
+                    "AnzahlSameSizeRadius0To10_i", "AnzahlSameSizeRadius10To30_i",
+                    "AnzahlSameSizeRadius30To60_i", "Uebergabeart_i", "logistic_costs")
 
 for (var in predictor_vars) {
   formula <- paste("log_price ~", var)
@@ -82,7 +93,10 @@ mlr_model <- lm(price_parsed ~
                 + condition 
                 + Dealer_i
                 + Last_48_hours_i 
-                + hasPsychologicalPricing_i,
+                + hasPsychologicalPricing_i
+                + AnzahlSameSizeRadius0To10_i
+                + AnzahlSameSizeRadius10To30_i
+                + AnzahlSameSizeRadius30To60_i,
                 data = data)
 
 coeftest(mlr_model, vcov = vcovHC(mlr_model, type = "const"))
@@ -105,7 +119,23 @@ coeftest_mlr2 <- coeftest(mlr_model_2, vcov = vcovHC(mlr_model_2, type = "HC0"))
 summary(mlr_model_2)
 
 
+### MLR with interaction terms for hasPsychologicalPricing_i x Var ###
+interaction_formula <- as.formula(
+  "log_price ~ hasPsychologicalPricing_i * (size + condition + color + Dealer_i + Last_48_hours_i + hasPsychologicalPricing_i + Uebergabeart_i+ AnzahlSameSizeRadius0To10_i + AnzahlSameSizeRadius10To30_i + AnzahlSameSizeRadius30To60_i)"
+)
+
+interaction_model <- lm(interaction_formula, data = data)
+coeftest_interaction_model <- coeftest(interaction_model, vcov = vcovHC(interaction_model, type = "HC1"))
+summary(interaction_model)
+
+
+
+
+
+sink()
+
 ### Output tables ###
+sink("tex/final_model_output_table_1.tex")
 stargazer(final_model, type = "latex", 
           se = list(coeftest_final[, 2]), 
           p = list(coeftest_final[, 4]), 
@@ -121,10 +151,12 @@ stargazer(final_model, type = "latex",
           style = "qje",
           notes.align = "l",
           notes.append = TRUE,
-          notes = "t-statistics are calculated using Huber-White robust standard errors. Significance levels: *p$\le$0.1; **p$\le$0.05; ***p$\le$0.01.",
-          table.placement = "H",
-          keep.stat = c("n", "rsq", "adj.rsq"))
+          notes = "t-statistics are calculated using Huber-White robust standard errors. Significance levels: *p \\le 0.1; **p \\le 0.05; ***p \\le 0.01."
+)
+sink()
 
+
+sink("tex/mlr_model_output_table_1.tex")
 stargazer(mlr_model, type = "latex", 
           se = list(coeftest_mlr[, 2]), 
           p = list(coeftest_mlr[, 4]), 
@@ -140,10 +172,13 @@ stargazer(mlr_model, type = "latex",
           style = "qje",
           notes.align = "l",
           notes.append = TRUE,
-          notes = "t-statistics are calculated using Huber-White robust standard errors. Significance levels: *p$\le$0.1; **p$\le$0.05; ***p$\le$0.01.",
+          notes = "t-statistics are calculated using Huber-White robust standard errors. Significance levels: *p \\le 0.1; **p \\le 0.05; ***p \\le 0.01.",
           table.placement = "H",
-          keep.stat = c("n", "rsq", "adj.rsq"))
+          keep.stat = c("n", "rsq", "adj.rsq")
+)
+sink()
 
+sink("tex/mlr_model_2_output_table_1.tex")
 stargazer(mlr_model_2, type = "latex", 
           se = list(coeftest_mlr2[, 2]), 
           p = list(coeftest_mlr2[, 4]), 
@@ -159,7 +194,8 @@ stargazer(mlr_model_2, type = "latex",
           style = "qje",
           notes.align = "l",
           notes.append = TRUE,
-          notes = "t-statistics are calculated using Huber-White robust standard errors. Significance levels: *p$\le$0.1; **p$\le$0.05; ***p$\le$0.01.",
+          notes = "t-statistics are calculated using Huber-White robust standard errors. Significance levels: *p \\le 0.1; **p \\le 0.05; ***p \\le 0.01.",
           table.placement = "H",
-          keep.stat = c("n", "rsq", "adj.rsq"))
-
+          keep.stat = c("n", "rsq", "adj.rsq")
+)
+sink()
