@@ -5,12 +5,13 @@ library(readxl)
 library(geodist)
 library(ggplot2)
 
-# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # Read data from the initial file
 data_file <- "data/willhaben_woom_bikes.csv"
 bikes_in <- read.csv(data_file, stringsAsFactors = FALSE)
 
+# duplicate removal; 3005 obs. -> 2319 obs.
 bikes <- bikes_in %>% distinct(item_url, .keep_all = TRUE)
 bikes <- bikes %>% mutate(obs_id = row_number())
 
@@ -18,6 +19,12 @@ bikes <- bikes %>% mutate(obs_id = row_number())
 
 bikes <- bikes %>% filter(!str_detect(title, regex("helm", ignore_case = TRUE)))
 bikes <- bikes %>% filter(!str_detect(title, regex("tasche", ignore_case = TRUE)))
+# 2285 obs.
+
+# must have 'Woom' or 'WOOM' or 'woom' in title
+bikes <- bikes %>% filter(str_detect(title, regex("Woom", ignore_case = TRUE)))
+# 2022 obs.
+
 
 ### DATA PREPROCESSINGS ###
 
@@ -35,6 +42,7 @@ bikes <- bikes %>% mutate(city_name = str_extract(location, "^[^,]*"))
 
 bikes <- bikes %>% mutate(WoomCategory_i = str_extract(title, "\\b\\d\\b"))
 sum(is.na(bikes$WoomCategory_i))
+# 144 cases
 
 bikes <- bikes %>%
   mutate(Color_i = case_when(
@@ -48,6 +56,7 @@ bikes <- bikes %>%
   ))
 
 sum(bikes$Color_i == "Andere")
+# 258 cases
 
 bikes <- bikes %>%
   mutate(last_modified_dt = dmy_hm(str_extract(last_modified, "\\d{2}\\.\\d{2}\\.\\d{4}, \\d{2}:\\d{2}")),
@@ -59,6 +68,7 @@ print(max_last_modified_dt)
 bikes <- bikes %>%
   mutate(Last_48_hours_i = ifelse(difftime(max_last_modified_dt, last_modified_dt, units = "hours") <= 48, 1, 0))
 sum(bikes$Last_48_hours_i == 1)
+# 185 obs. / approx 10%
 
 bikes <- bikes %>%
   mutate(Cond_i = case_when(
@@ -67,6 +77,7 @@ bikes <- bikes %>%
     TRUE ~ "good"
   ))
 sum(bikes$Cond_i == "as good as new")
+# 408 obs.
 
 bikes <- bikes %>%
   mutate(Uebergabeart_i = case_when(
@@ -78,8 +89,8 @@ bikes <- bikes %>%
 bikes <- bikes %>%
   mutate(Dealer_i = ifelse(seller_info == "Privatperson", 0, 1))
 
-sum(bikes$Dealer_i == 1)
-sum(bikes$Dealer_i == 0)
+sum(bikes$Dealer_i == 1) # 1571 obs.
+sum(bikes$Dealer_i == 0) # 451 obs.
 
 ### WRITE CSV ###
 write.csv(bikes, "data/processed_willhaben_woom_bikes.csv", row.names = FALSE)
@@ -96,6 +107,7 @@ bikes <- bikes %>%
                                   plz_verzeichnis$PLZ[match(city_name, plz_verzeichnis$Ort)], 
                                   zip_code))
 sum(is.na(bikes$zip_code_result))
+# 939 cases.
 
 bikes <- bikes %>% filter(!is.na(zip_code_result))
 
@@ -106,8 +118,12 @@ bikes <- bikes %>%
   )
 sum(is.na(bikes$latitude))
 sum(is.na(bikes$longitude))
+# 29 cases.
 
-bikes <- na.omit(bikes)
+
+bikes <- bikes[complete.cases(bikes[, 
+    c("Cond_i", "WoomCategory_i", "Color_i", "longitude", "latitude")]), ]
+# 991 obs.
 
 ### Calculate counts within radius ###
 
@@ -150,6 +166,7 @@ bikes <- bikes %>%
                          AnzahlSameProductsRadius10To30_i * weights[2] +
                          AnzahlSameProductsRadius30To60_i * weights[3])
       
+      # Prevent division by zero
       ifelse(total_count == 0, 0, 1 / weighted_sum)
     }
   )
@@ -160,7 +177,13 @@ bikes <- bikes %>%
     condition = as.factor(Cond_i)
   )
 
+
+write.csv(bikes, "data/willhaben_woom_bikes_sample.csv", row.names = FALSE)
+
+
+### DATA PREPROCESSINGS PART 3 ###
 ### Remove price outliers ###
+bikes <- read.csv("data/willhaben_woom_bikes_sample.csv", stringsAsFactors = FALSE)
 
 ggplot(bikes, aes(x = price_parsed)) +
   geom_histogram(binwidth = 50, fill = "blue", color = "black", alpha = 0.7) +
@@ -171,10 +194,11 @@ IQR_value <- IQR(bikes$price_parsed, na.rm = TRUE)
 Q1 <- summary_stats["1st Qu."]
 Q3 <- summary_stats["3rd Qu."]
 
-lower_bound <- Q1 - 1.5 * IQR_value
-upper_bound <- Q3 + 1.5 * IQR_value
+lower_bound <- Q1 - 2.5 * IQR_value
+upper_bound <- Q3 + 2.5 * IQR_value
 
 bikes_no_outliers <- bikes %>% filter(price_parsed >= lower_bound & price_parsed <= upper_bound)
+# 826 obs.
 
 ggplot(bikes_no_outliers, aes(x = price_parsed)) +
   geom_histogram(binwidth = 50, fill = "green", color = "black", alpha = 0.7) +

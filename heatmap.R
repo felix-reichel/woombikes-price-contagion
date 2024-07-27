@@ -14,6 +14,8 @@ bikes_selected <- bikes[, colnames(bikes)]
 numeric_cols <- sapply(bikes_selected, is.numeric)
 cor_data <- cor(bikes_selected[, numeric_cols])
 cor_data_melted <- melt(cor_data)
+cor_data_melted <-
+cor_data_melted[!(cor_data_melted$Var1 == "zip_code" | cor_data_melted$Var2 == "zip_code"), ]
 
 
 

@@ -8,7 +8,7 @@ data_numeric <- data[, sapply(data, is.numeric)]
 data_numeric <- data_numeric[, !names(data_numeric) %in% 
                                c("price_parsed", "latitude", "longitude", 
                                  "zip_code", "last_modified_unix", "zip_code_result", 
-                                 "obs_id", "logistic_costs")]
+                                 "obs_id")]
 
 data_numeric <- na.omit(data_numeric)
 
