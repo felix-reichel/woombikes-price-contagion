@@ -9,6 +9,7 @@ library(stargazer)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
+while(sink.number() > 0) sink()
 sink("logs/statInference.log")
 
 #data <- read_csv("data/willhaben_woom_bikes_sample.csv")
@@ -118,8 +119,9 @@ coeftest_mlr2 <- coeftest(mlr_model_2, vcov = vcovHC(mlr_model_2, type = "HC0"))
 
 summary(mlr_model_2)
 
-
 ### MLR with interaction terms for hasPsychologicalPricing_i x Var ###
+
+sink("tex/interact.txt")
 interaction_formula <- as.formula(
   "log_price ~ hasPsychologicalPricing_i * (size + condition + color + Dealer_i + Last_48_hours_i + hasPsychologicalPricing_i + Uebergabeart_i+ AnzahlSameSizeRadius0To10_i + AnzahlSameSizeRadius10To30_i + AnzahlSameSizeRadius30To60_i)"
 )
@@ -127,12 +129,52 @@ interaction_formula <- as.formula(
 interaction_model <- lm(interaction_formula, data = data)
 coeftest_interaction_model <- coeftest(interaction_model, vcov = vcovHC(interaction_model, type = "HC1"))
 summary(interaction_model)
-
-
-
-
-
+stargazer(interaction_model, type = "latex")
 sink()
+
+### MLR With FEs
+
+library(fixest)
+
+sink("tex/fe_1.txt")
+fixed_effects_model <- feols(price_parsed ~ 
+                               color + condition + Dealer_i + 
+                               Last_48_hours_i + 
+                               hasPsychologicalPricing_i
+                               + AnzahlSameSizeRadius0To10_i
+                               + AnzahlSameSizeRadius10To30_i
+                               + AnzahlSameSizeRadius30To60_i | 
+                               size , 
+                             data = data)
+summary(fixed_effects_model)
+stargazer(fixed_effects_model, type = "latex")
+sink()
+
+sink("tex/fe_2.txt")
+fixed_effects_model_2 <- feols(price_parsed ~ Dealer_i 
+                               +  Last_48_hours_i + 
+                                    hasPsychologicalPricing_i
+                                  + AnzahlSameSizeRadius0To10_i
+                                  + AnzahlSameSizeRadius10To30_i
+                                  + AnzahlSameSizeRadius30To60_i | 
+                                    size + color + condition , 
+                                  data = data)
+summary(fixed_effects_model_2)
+stargazer(fixed_effects_model_2, type = "latex")
+sink()
+
+sink("tex/fe_3.txt")
+fixed_effects_model_3 <- feols(price_parsed ~
+                                 hasPsychologicalPricing_i | 
+                                 size + color + condition, 
+                               data = data)
+
+summary(fixed_effects_model_3)
+stargazer(fixed_effects_model_3, type = "latex")
+sink()
+
+
+
 
 ### Output tables ###
 sink("tex/final_model_output_table_1.tex")
@@ -143,7 +185,7 @@ stargazer(final_model, type = "latex",
           label = "tab:stepwise_model",
           star.cutoffs = c(0.10, 0.05, 0.01),
           add.lines = list(
-            c("Observations", 254),
+            c("Observations", 826),
             c("R-squared", round(summary(final_model)$r.squared, 3)),
             c("Adjusted R-squared", round(summary(final_model)$adj.r.squared, 3)),
             c("Note", "t-statistics based on Huber-White standard errors.")
@@ -164,7 +206,7 @@ stargazer(mlr_model, type = "latex",
           label = "tab:mlr_model",
           star.cutoffs = c(0.10, 0.05, 0.01),
           add.lines = list(
-            c("Observations", 254),
+            c("Observations", 826),
             c("R-squared", round(summary(mlr_model)$r.squared, 3)),
             c("Adjusted R-squared", round(summary(mlr_model)$adj.r.squared, 3)),
             c("Note", "t-statistics based on Huber-White standard errors.")
@@ -186,7 +228,7 @@ stargazer(mlr_model_2, type = "latex",
           label = "tab:mlr_model_2",
           star.cutoffs = c(0.10, 0.05, 0.01),
           add.lines = list(
-            c("Observations", 254),
+            c("Observations", 826),
             c("R-squared", round(summary(mlr_model_2)$r.squared, 3)),
             c("Adjusted R-squared", round(summary(mlr_model_2)$adj.r.squared, 3)),
             c("Note", "t-statistics based on Huber-White standard errors.")

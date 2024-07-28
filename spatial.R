@@ -9,7 +9,7 @@ library(spatialprobit)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-sink("logs/spatial")
+sink("logs/spatial.log")
 
 data <- read_csv("data/willhaben_woom_bikes_sample_no_outlier.csv")
 

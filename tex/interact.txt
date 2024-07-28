@@ -1,0 +1,252 @@
+
+Call:
+lm(formula = interaction_formula, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.42035 -0.06315  0.00241  0.06437  0.39410 
+
+Coefficients: (1 not defined because of singularities)
+                                                         Estimate Std. Error t value Pr(>|t|)
+(Intercept)                                             5.387e+00  3.356e-02 160.508  < 2e-16
+hasPsychologicalPricing_i                               6.760e-02  8.249e-02   0.820 0.412726
+size2                                                   4.682e-01  2.697e-02  17.360  < 2e-16
+size3                                                   5.351e-01  2.515e-02  21.278  < 2e-16
+size4                                                   7.356e-01  2.617e-02  28.108  < 2e-16
+size5                                                   8.484e-01  3.190e-02  26.595  < 2e-16
+size6                                                   8.421e-01  3.486e-02  24.153  < 2e-16
+size7                                                  -1.217e-02  1.287e-01  -0.095 0.924651
+conditiongood                                           1.686e-01  3.915e-02   4.307 1.87e-05
+conditionused                                          -8.884e-02  1.009e-02  -8.805  < 2e-16
+colorBlau                                              -7.916e-02  2.140e-02  -3.699 0.000232
+colorGelb                                              -6.755e-02  2.285e-02  -2.956 0.003212
+colorGrün                                              -5.813e-02  2.145e-02  -2.710 0.006869
+colorOrange                                            -9.597e-02  1.101e-01  -0.872 0.383661
+colorRot                                               -6.938e-02  2.115e-02  -3.281 0.001080
+colorViolett                                           -2.977e-02  2.165e-02  -1.375 0.169482
+Dealer_i                                                1.854e-02  9.644e-03   1.922 0.054918
+Last_48_hours_i                                        -5.455e-03  1.428e-02  -0.382 0.702592
+Uebergabeart_i                                          9.724e-03  1.087e-02   0.895 0.371300
+AnzahlSameSizeRadius0To10_i                             1.021e-04  1.301e-04   0.785 0.432751
+AnzahlSameSizeRadius10To30_i                           -4.452e-05  7.026e-05  -0.634 0.526498
+AnzahlSameSizeRadius30To60_i                            3.070e-05  4.813e-05   0.638 0.523713
+hasPsychologicalPricing_i:size2                         2.615e-02  5.580e-02   0.469 0.639476
+hasPsychologicalPricing_i:size3                         7.535e-02  4.737e-02   1.591 0.112055
+hasPsychologicalPricing_i:size4                         7.289e-02  4.942e-02   1.475 0.140631
+hasPsychologicalPricing_i:size5                         4.993e-03  9.450e-02   0.053 0.957873
+hasPsychologicalPricing_i:size6                         5.774e-03  8.650e-02   0.067 0.946799
+hasPsychologicalPricing_i:size7                                NA         NA      NA       NA
+hasPsychologicalPricing_i:conditiongood                -1.946e-01  9.366e-02  -2.078 0.038018
+hasPsychologicalPricing_i:conditionused                -4.550e-02  2.838e-02  -1.603 0.109252
+hasPsychologicalPricing_i:colorBlau                    -9.475e-03  6.145e-02  -0.154 0.877498
+hasPsychologicalPricing_i:colorGelb                    -4.634e-02  6.683e-02  -0.693 0.488242
+hasPsychologicalPricing_i:colorGrün                    -3.219e-02  6.901e-02  -0.466 0.641009
+hasPsychologicalPricing_i:colorOrange                  -7.992e-02  1.680e-01  -0.476 0.634351
+hasPsychologicalPricing_i:colorRot                     -2.759e-02  6.125e-02  -0.451 0.652445
+hasPsychologicalPricing_i:colorViolett                 -1.392e-02  6.303e-02  -0.221 0.825262
+hasPsychologicalPricing_i:Dealer_i                     -3.822e-02  2.771e-02  -1.379 0.168266
+hasPsychologicalPricing_i:Last_48_hours_i               1.625e-02  5.164e-02   0.315 0.753102
+hasPsychologicalPricing_i:Uebergabeart_i                3.853e-03  2.920e-02   0.132 0.895044
+hasPsychologicalPricing_i:AnzahlSameSizeRadius0To10_i   2.098e-04  3.316e-04   0.633 0.527158
+hasPsychologicalPricing_i:AnzahlSameSizeRadius10To30_i -3.745e-04  1.894e-04  -1.976 0.048450
+hasPsychologicalPricing_i:AnzahlSameSizeRadius30To60_i -1.627e-04  1.238e-04  -1.314 0.189217
+                                                          
+(Intercept)                                            ***
+hasPsychologicalPricing_i                                 
+size2                                                  ***
+size3                                                  ***
+size4                                                  ***
+size5                                                  ***
+size6                                                  ***
+size7                                                     
+conditiongood                                          ***
+conditionused                                          ***
+colorBlau                                              ***
+colorGelb                                              ** 
+colorGrün                                              ** 
+colorOrange                                               
+colorRot                                               ** 
+colorViolett                                              
+Dealer_i                                               .  
+Last_48_hours_i                                           
+Uebergabeart_i                                            
+AnzahlSameSizeRadius0To10_i                               
+AnzahlSameSizeRadius10To30_i                              
+AnzahlSameSizeRadius30To60_i                              
+hasPsychologicalPricing_i:size2                           
+hasPsychologicalPricing_i:size3                           
+hasPsychologicalPricing_i:size4                           
+hasPsychologicalPricing_i:size5                           
+hasPsychologicalPricing_i:size6                           
+hasPsychologicalPricing_i:size7                           
+hasPsychologicalPricing_i:conditiongood                *  
+hasPsychologicalPricing_i:conditionused                   
+hasPsychologicalPricing_i:colorBlau                       
+hasPsychologicalPricing_i:colorGelb                       
+hasPsychologicalPricing_i:colorGrün                       
+hasPsychologicalPricing_i:colorOrange                     
+hasPsychologicalPricing_i:colorRot                        
+hasPsychologicalPricing_i:colorViolett                    
+hasPsychologicalPricing_i:Dealer_i                        
+hasPsychologicalPricing_i:Last_48_hours_i                 
+hasPsychologicalPricing_i:Uebergabeart_i                  
+hasPsychologicalPricing_i:AnzahlSameSizeRadius0To10_i     
+hasPsychologicalPricing_i:AnzahlSameSizeRadius10To30_i *  
+hasPsychologicalPricing_i:AnzahlSameSizeRadius30To60_i    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1063 on 785 degrees of freedom
+Multiple R-squared:  0.7269,	Adjusted R-squared:  0.713 
+F-statistic: 52.23 on 40 and 785 DF,  p-value: < 2.2e-16
+
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sun, Jul 28, 2024 - 12:35:37
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-2} 
+\\[-1.8ex] & log\_price \\ 
+\hline \\[-1.8ex] 
+ hasPsychologicalPricing\_i & 0.068 \\ 
+  & (0.082) \\ 
+  & \\ 
+ size2 & 0.468$^{***}$ \\ 
+  & (0.027) \\ 
+  & \\ 
+ size3 & 0.535$^{***}$ \\ 
+  & (0.025) \\ 
+  & \\ 
+ size4 & 0.736$^{***}$ \\ 
+  & (0.026) \\ 
+  & \\ 
+ size5 & 0.848$^{***}$ \\ 
+  & (0.032) \\ 
+  & \\ 
+ size6 & 0.842$^{***}$ \\ 
+  & (0.035) \\ 
+  & \\ 
+ size7 & $-$0.012 \\ 
+  & (0.129) \\ 
+  & \\ 
+ conditiongood & 0.169$^{***}$ \\ 
+  & (0.039) \\ 
+  & \\ 
+ conditionused & $-$0.089$^{***}$ \\ 
+  & (0.010) \\ 
+  & \\ 
+ colorBlau & $-$0.079$^{***}$ \\ 
+  & (0.021) \\ 
+  & \\ 
+ colorGelb & $-$0.068$^{***}$ \\ 
+  & (0.023) \\ 
+  & \\ 
+ colorGrün & $-$0.058$^{***}$ \\ 
+  & (0.021) \\ 
+  & \\ 
+ colorOrange & $-$0.096 \\ 
+  & (0.110) \\ 
+  & \\ 
+ colorRot & $-$0.069$^{***}$ \\ 
+  & (0.021) \\ 
+  & \\ 
+ colorViolett & $-$0.030 \\ 
+  & (0.022) \\ 
+  & \\ 
+ Dealer\_i & 0.019$^{*}$ \\ 
+  & (0.010) \\ 
+  & \\ 
+ Last\_48\_hours\_i & $-$0.005 \\ 
+  & (0.014) \\ 
+  & \\ 
+ Uebergabeart\_i & 0.010 \\ 
+  & (0.011) \\ 
+  & \\ 
+ AnzahlSameSizeRadius0To10\_i & 0.0001 \\ 
+  & (0.0001) \\ 
+  & \\ 
+ AnzahlSameSizeRadius10To30\_i & $-$0.00004 \\ 
+  & (0.0001) \\ 
+  & \\ 
+ AnzahlSameSizeRadius30To60\_i & 0.00003 \\ 
+  & (0.00005) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:size2 & 0.026 \\ 
+  & (0.056) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:size3 & 0.075 \\ 
+  & (0.047) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:size4 & 0.073 \\ 
+  & (0.049) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:size5 & 0.005 \\ 
+  & (0.094) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:size6 & 0.006 \\ 
+  & (0.086) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:size7 &  \\ 
+  &  \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:conditiongood & $-$0.195$^{**}$ \\ 
+  & (0.094) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:conditionused & $-$0.045 \\ 
+  & (0.028) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:colorBlau & $-$0.009 \\ 
+  & (0.061) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:colorGelb & $-$0.046 \\ 
+  & (0.067) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:colorGrün & $-$0.032 \\ 
+  & (0.069) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:colorOrange & $-$0.080 \\ 
+  & (0.168) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:colorRot & $-$0.028 \\ 
+  & (0.061) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:colorViolett & $-$0.014 \\ 
+  & (0.063) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:Dealer\_i & $-$0.038 \\ 
+  & (0.028) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:Last\_48\_hours\_i & 0.016 \\ 
+  & (0.052) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:Uebergabeart\_i & 0.004 \\ 
+  & (0.029) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:AnzahlSameSizeRadius0To10\_i & 0.0002 \\ 
+  & (0.0003) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:AnzahlSameSizeRadius10To30\_i & $-$0.0004$^{**}$ \\ 
+  & (0.0002) \\ 
+  & \\ 
+ hasPsychologicalPricing\_i:AnzahlSameSizeRadius30To60\_i & $-$0.0002 \\ 
+  & (0.0001) \\ 
+  & \\ 
+ Constant & 5.387$^{***}$ \\ 
+  & (0.034) \\ 
+  & \\ 
+\hline \\[-1.8ex] 
+Observations & 826 \\ 
+R$^{2}$ & 0.727 \\ 
+Adjusted R$^{2}$ & 0.713 \\ 
+Residual Std. Error & 0.106 (df = 785) \\ 
+F Statistic & 52.233$^{***}$ (df = 40; 785) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 

@@ -1,4 +1,4 @@
-[1mindexing[0m [34mwillhaben_woom_bikes_sample_no_outlier.csv[0m [==================================] [32m128.87GB/s[0m, eta: [36m 0s[0m                                                                                                                                                Reading layer `at_10km' from data source 
+[1mindexing[0m [34mwillhaben_woom_bikes_sample_no_outlier.csv[0m [=====================] [32m128.87GB/s[0m, eta: [36m 0s[0m                                                                                                                                   Reading layer `at_10km' from data source 
   `/Users/felixreichel/Documents/UNI/EBA_Master/woombikes-price-contagion/data/Austria_shapefile/at_10km.shp' 
   using driver `ESRI Shapefile'
 Simple feature collection with 1221 features and 3 fields

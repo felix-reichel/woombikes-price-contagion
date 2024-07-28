@@ -1,0 +1,17 @@
+OLS estimation, Dep. Var.: price_parsed
+Observations: 826
+Fixed-effects: size: 7,  color: 7,  condition: 3
+Standard-errors: Clustered (size) 
+                              Estimate Std. Error   t value Pr(>|t|) 
+Dealer_i                      4.866451   4.227170  1.151231  0.29344 
+Last_48_hours_i              -1.415413   5.406021 -0.261822  0.80222 
+hasPsychologicalPricing_i     3.496607   2.102916  1.662742  0.14742 
+AnzahlSameSizeRadius0To10_i   0.043051   0.067281  0.639874  0.54590 
+AnzahlSameSizeRadius10To30_i -0.018711   0.021241 -0.880889  0.41227 
+AnzahlSameSizeRadius30To60_i -0.000447   0.013981 -0.031936  0.97556 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+RMSE: 37.3     Adj. R2: 0.688789
+             Within R2: 0.005581
+
+% Error: Unrecognized object type.

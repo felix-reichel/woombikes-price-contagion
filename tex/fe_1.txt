@@ -1,0 +1,25 @@
+OLS estimation, Dep. Var.: price_parsed
+Observations: 826
+Fixed-effects: size: 7
+Standard-errors: Clustered (size) 
+                               Estimate Std. Error   t value   Pr(>|t|)    
+colorBlau                    -34.014383  16.399570 -2.074102 8.3413e-02 .  
+colorGelb                    -31.428050  16.893811 -1.860329 1.1217e-01    
+colorGrün                    -29.041744  16.377841 -1.773234 1.2656e-01    
+colorOrange                  -63.043126  13.732413 -4.590827 3.7278e-03 ** 
+colorRot                     -31.941279  17.172075 -1.860071 1.1221e-01    
+colorViolett                 -17.024952  16.026106 -1.062326 3.2896e-01    
+conditiongood                 55.212017  13.041707  4.233496 5.4789e-03 ** 
+conditionused                -34.105701   3.438760 -9.918024 6.0702e-05 ***
+Dealer_i                       4.866451   4.227170  1.151231 2.9344e-01    
+Last_48_hours_i               -1.415413   5.406021 -0.261822 8.0222e-01    
+hasPsychologicalPricing_i      3.496607   2.102916  1.662742 1.4742e-01    
+AnzahlSameSizeRadius0To10_i    0.043051   0.067281  0.639874 5.4590e-01    
+AnzahlSameSizeRadius10To30_i  -0.018711   0.021241 -0.880889 4.1227e-01    
+AnzahlSameSizeRadius30To60_i  -0.000447   0.013981 -0.031936 9.7556e-01    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+RMSE: 37.3     Adj. R2: 0.688789
+             Within R2: 0.207353
+
+% Error: Unrecognized object type.

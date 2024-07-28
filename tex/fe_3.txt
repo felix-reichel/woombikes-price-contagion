@@ -1,0 +1,12 @@
+OLS estimation, Dep. Var.: price_parsed
+Observations: 826
+Fixed-effects: size: 7,  color: 7,  condition: 3
+Standard-errors: Clustered (size) 
+                          Estimate Std. Error t value Pr(>|t|) 
+hasPsychologicalPricing_i  3.84075    2.08469 1.84236    0.115 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+RMSE: 37.3     Adj. R2: 0.689368
+             Within R2: 0.001265
+
+% Error: Unrecognized object type.

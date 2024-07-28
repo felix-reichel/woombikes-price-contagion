@@ -1,4 +1,4 @@
-[1mindexing[0m [34mwillhaben_woom_bikes_sample_no_outlier.csv[0m [==================================] [32m128.87GB/s[0m, eta: [36m 0s[0m                                                                                                                                                cols(
+[1mindexing[0m [34mwillhaben_woom_bikes_sample_no_outlier.csv[0m [====================] [32m139.60GB/s[0m, eta: [36m 0s[0m                                                                                                                                  cols(
   title = col_character(),
   location = col_character(),
   last_modified = col_character(),
@@ -633,63 +633,4 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 38.59 on 813 degrees of freedom
 Multiple R-squared:  0.6794,	Adjusted R-squared:  0.6747 
 F-statistic: 143.6 on 12 and 813 DF,  p-value: < 2.2e-16
-
-
-Call:
-lm(formula = interaction_formula, data = data)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--0.42035 -0.06315  0.00241  0.06437  0.39410 
-
-Coefficients: (1 not defined because of singularities)
-                                                         Estimate Std. Error t value Pr(>|t|)    
-(Intercept)                                             5.387e+00  3.356e-02 160.508  < 2e-16 ***
-hasPsychologicalPricing_i                               6.760e-02  8.249e-02   0.820 0.412726    
-size2                                                   4.682e-01  2.697e-02  17.360  < 2e-16 ***
-size3                                                   5.351e-01  2.515e-02  21.278  < 2e-16 ***
-size4                                                   7.356e-01  2.617e-02  28.108  < 2e-16 ***
-size5                                                   8.484e-01  3.190e-02  26.595  < 2e-16 ***
-size6                                                   8.421e-01  3.486e-02  24.153  < 2e-16 ***
-size7                                                  -1.217e-02  1.287e-01  -0.095 0.924651    
-conditiongood                                           1.686e-01  3.915e-02   4.307 1.87e-05 ***
-conditionused                                          -8.884e-02  1.009e-02  -8.805  < 2e-16 ***
-colorBlau                                              -7.916e-02  2.140e-02  -3.699 0.000232 ***
-colorGelb                                              -6.755e-02  2.285e-02  -2.956 0.003212 ** 
-colorGrün                                              -5.813e-02  2.145e-02  -2.710 0.006869 ** 
-colorOrange                                            -9.597e-02  1.101e-01  -0.872 0.383661    
-colorRot                                               -6.938e-02  2.115e-02  -3.281 0.001080 ** 
-colorViolett                                           -2.977e-02  2.165e-02  -1.375 0.169482    
-Dealer_i                                                1.854e-02  9.644e-03   1.922 0.054918 .  
-Last_48_hours_i                                        -5.455e-03  1.428e-02  -0.382 0.702592    
-Uebergabeart_i                                          9.724e-03  1.087e-02   0.895 0.371300    
-AnzahlSameSizeRadius0To10_i                             1.021e-04  1.301e-04   0.785 0.432751    
-AnzahlSameSizeRadius10To30_i                           -4.452e-05  7.026e-05  -0.634 0.526498    
-AnzahlSameSizeRadius30To60_i                            3.070e-05  4.813e-05   0.638 0.523713    
-hasPsychologicalPricing_i:size2                         2.615e-02  5.580e-02   0.469 0.639476    
-hasPsychologicalPricing_i:size3                         7.535e-02  4.737e-02   1.591 0.112055    
-hasPsychologicalPricing_i:size4                         7.289e-02  4.942e-02   1.475 0.140631    
-hasPsychologicalPricing_i:size5                         4.993e-03  9.450e-02   0.053 0.957873    
-hasPsychologicalPricing_i:size6                         5.774e-03  8.650e-02   0.067 0.946799    
-hasPsychologicalPricing_i:size7                                NA         NA      NA       NA    
-hasPsychologicalPricing_i:conditiongood                -1.946e-01  9.366e-02  -2.078 0.038018 *  
-hasPsychologicalPricing_i:conditionused                -4.550e-02  2.838e-02  -1.603 0.109252    
-hasPsychologicalPricing_i:colorBlau                    -9.475e-03  6.145e-02  -0.154 0.877498    
-hasPsychologicalPricing_i:colorGelb                    -4.634e-02  6.683e-02  -0.693 0.488242    
-hasPsychologicalPricing_i:colorGrün                    -3.219e-02  6.901e-02  -0.466 0.641009    
-hasPsychologicalPricing_i:colorOrange                  -7.992e-02  1.680e-01  -0.476 0.634351    
-hasPsychologicalPricing_i:colorRot                     -2.759e-02  6.125e-02  -0.451 0.652445    
-hasPsychologicalPricing_i:colorViolett                 -1.392e-02  6.303e-02  -0.221 0.825262    
-hasPsychologicalPricing_i:Dealer_i                     -3.822e-02  2.771e-02  -1.379 0.168266    
-hasPsychologicalPricing_i:Last_48_hours_i               1.625e-02  5.164e-02   0.315 0.753102    
-hasPsychologicalPricing_i:Uebergabeart_i                3.853e-03  2.920e-02   0.132 0.895044    
-hasPsychologicalPricing_i:AnzahlSameSizeRadius0To10_i   2.098e-04  3.316e-04   0.633 0.527158    
-hasPsychologicalPricing_i:AnzahlSameSizeRadius10To30_i -3.745e-04  1.894e-04  -1.976 0.048450 *  
-hasPsychologicalPricing_i:AnzahlSameSizeRadius30To60_i -1.627e-04  1.238e-04  -1.314 0.189217    
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 0.1063 on 785 degrees of freedom
-Multiple R-squared:  0.7269,	Adjusted R-squared:  0.713 
-F-statistic: 52.23 on 40 and 785 DF,  p-value: < 2.2e-16
 
