@@ -20,6 +20,8 @@ Repository for VU Online Marketplaces
 
 ### Descriptive Statistics
 
+![Histograms](histograms.png)
+
 ### Model Specification (Draft)
 
 #### Model 1: Base MLR Model
